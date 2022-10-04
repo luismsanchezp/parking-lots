@@ -19,8 +19,12 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'name',
+        'surname',
         'email',
         'password',
+        'id_type',
+        'gov_id',
+        'phone_number'
     ];
 
     /**
@@ -41,4 +45,14 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function customer()
+    {
+        return $this->belongsTo(Customer::class, 'user_id');
+    }
+
+    public function parking_lots()
+    {
+        return $this->hasMany(ParkingLot::class, 'user_id');
+    }
 }
