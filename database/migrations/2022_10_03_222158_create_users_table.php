@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('surname', 25);
             $table->string('email', 254)->unique();
             $table->timestamp('email_verified_at')->nullable();
-            $table->string('password', 15);
+            $table->string('password');
             $table->enum('id_type', ['C.C.', 'C.E.', 'T.I.']);
             $table->string('gov_id', 10)->unique();
             $table->string('phone_number', 10)->unique();
