@@ -6,6 +6,9 @@ use App\Http\Controllers\Controller;
 use App\Models\Vehicle;
 use Illuminate\Http\Request;
 
+use App\Http\Requests\api\v1\VehicleStoreRequest;
+use App\Http\Requests\api\v1\VehicleUpdateRequest;
+
 class VehicleController extends Controller
 {
     /**
@@ -25,7 +28,7 @@ class VehicleController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(VehicleStoreRequest $request)
     {
         $vehicle = Vehicle::create($request->all());
 	    return $vehicle;
@@ -49,7 +52,7 @@ class VehicleController extends Controller
      * @param  \App\Models\Vehicle  $vehicle
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Vehicle $vehicle)
+    public function update(VehicleUpdateRequest $request, Vehicle $vehicle)
     {
         return response()->json(['data' => $vehicle], 200);
     }

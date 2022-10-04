@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Models\ParkingLot;
 use Illuminate\Http\Request;
 
+use App\Http\Requests\api\v1\ParkingLotStoreRequest;
+
 class ParkingLotController extends Controller
 {
     /**
@@ -25,7 +27,7 @@ class ParkingLotController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ParkingLotStoreRequest $request)
     {
         $parkingLot = ParkingLot::create($request->all());
 	    return $parkingLot;
@@ -49,7 +51,7 @@ class ParkingLotController extends Controller
      * @param  \App\Models\ParkingLot  $parkingLot
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, ParkingLot $parkingLot)
+    public function update(ParkingLotStoreRequest $request, ParkingLot $parkingLot)
     {
         $parkingLot->update($request->all());
         return response()->json(['data' => $parkingLot], 200);

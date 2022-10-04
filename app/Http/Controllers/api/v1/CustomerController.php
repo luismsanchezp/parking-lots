@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Models\Customer;
 use Illuminate\Http\Request;
 
+use App\Http\Requests\api\v1\CustomerStoreRequest;
+
 class CustomerController extends Controller
 {
     /**
@@ -25,7 +27,7 @@ class CustomerController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CustomerStoreRequest $request)
     {
         $customer = Customer::create($request->all());
 	    return $customer;

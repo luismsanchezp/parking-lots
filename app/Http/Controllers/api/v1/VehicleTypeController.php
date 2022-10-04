@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Models\VehicleType;
 use Illuminate\Http\Request;
 
+use App\Http\Requests\api\v1\VehicleTypeStoreRequest;
+
 class VehicleTypeController extends Controller
 {
     /**
@@ -25,7 +27,7 @@ class VehicleTypeController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(VehicleTypeStoreRequest $request)
     {
         $vehicleType = VehicleType::create($request->all());
 	    return $vehicleType;

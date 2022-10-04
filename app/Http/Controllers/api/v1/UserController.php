@@ -6,6 +6,9 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
 
+use App\Http\Requests\api\v1\UserStoreRequest;
+use App\Http\Requests\api\v1\UserUpdateRequest;
+
 class UserController extends Controller
 {
     /**
@@ -25,7 +28,7 @@ class UserController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(UserStoreRequest $request)
     {
         $user = User::create($request->all());
 	    return $user;
@@ -49,7 +52,7 @@ class UserController extends Controller
      * @param  \App\Models\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, User $user)
+    public function update(UserUpdateRequest $request, User $user)
     {
         $user->update($request->all());
         return response()->json(['data' => $user], 200);

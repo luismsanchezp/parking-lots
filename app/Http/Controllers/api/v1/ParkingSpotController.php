@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Models\ParkingSpot;
 use Illuminate\Http\Request;
 
+use App\Http\Requests\api\v1\ParkingSpotStoreRequest;
+
 class ParkingSpotController extends Controller
 {
     /**
@@ -25,7 +27,7 @@ class ParkingSpotController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ParkingSpotStoreRequest $request)
     {
         $parkingSpot = ParkingSpot::create($request->all());
 	    return $parkingSpot;

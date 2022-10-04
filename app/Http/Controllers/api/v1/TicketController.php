@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Models\Ticket;
 use Illuminate\Http\Request;
 
+use App\Http\Requests\api\v1\TicketStoreRequest;
+
 class TicketController extends Controller
 {
     /**
@@ -25,7 +27,7 @@ class TicketController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(TicketStoreRequest $request)
     {
         $ticket = Ticket::create($request->all());
 	    return $ticket;
