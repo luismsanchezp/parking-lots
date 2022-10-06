@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('name', 30);
             $table->integer('rows');
             $table->integer('columns');
-            $table->foreignId('user_id')->unique();
+            $table->foreignId('user_id');
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users')

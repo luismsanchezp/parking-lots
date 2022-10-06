@@ -5,6 +5,7 @@ namespace App\Http\Controllers\api\v1;
 use App\Http\Controllers\Controller;
 use App\Models\Vehicle;
 use Illuminate\Http\Request;
+use App\Http\Resources\VehicleResource;
 
 use App\Http\Requests\api\v1\VehicleStoreRequest;
 use App\Http\Requests\api\v1\VehicleUpdateRequest;
@@ -19,7 +20,7 @@ class VehicleController extends Controller
     public function index()
     {
         $vehicles = Vehicle::orderBy('license_plate', 'asc')->get();
-        return response()->json(['data' => $vehicles], 200);
+        return response()->json(['data' => VehicleResource::collection($vehicles)], 200);
     }
 
     /**
@@ -31,7 +32,9 @@ class VehicleController extends Controller
     public function store(VehicleStoreRequest $request)
     {
         $vehicle = Vehicle::create($request->all());
-	    return $vehicle;
+        return (new VehicleResource($vehicle))
+            ->response()
+            ->setStatusCode(200);
     }
 
     /**
@@ -42,7 +45,9 @@ class VehicleController extends Controller
      */
     public function show(Vehicle $vehicle)
     {
-        return response()->json(['data' => $vehicle], 200);
+        return (new VehicleResource($vehicle))
+            ->response()
+            ->setStatusCode(200);
     }
 
     /**
@@ -54,7 +59,7 @@ class VehicleController extends Controller
      */
     public function update(VehicleUpdateRequest $request, Vehicle $vehicle)
     {
-        return response()->json(['data' => $vehicle], 200);
+        //
     }
 
     /**

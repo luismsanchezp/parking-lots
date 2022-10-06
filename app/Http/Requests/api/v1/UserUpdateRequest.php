@@ -27,7 +27,7 @@ class UserUpdateRequest extends FormRequest
     {
         return [
             "password" => "required|string|min:8|max:15",
-            "phone_number" => "required|string|min:10|max:10|numeric|unique:users,phone_number"
+            "phone_number" => "required|string|digits_between:10,10|numeric|unique:users,phone_number"
         ];
     }
 

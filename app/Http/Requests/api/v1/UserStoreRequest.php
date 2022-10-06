@@ -34,8 +34,8 @@ class UserStoreRequest extends FormRequest
             "email" => "required|string|min:3|max:254|email:rfc,dns|unique:users,email",
             "password" => "required|string|min:8|max:15",
             "id_type" => ["required","string","min:4","max:4",new Enum(GovIdTypeEnum::class)],
-            "gov_id" => "required|string|min:10|max:10|numeric|unique:users,gov_id",
-            "phone_number" => "required|string|min:10|max:10|numeric|unique:users,phone_number"
+            "gov_id" => "required|string|digits_between:10,10|numeric|unique:users,gov_id",
+            "phone_number" => "required|string|digits_between:10,10|numeric|unique:users,phone_number"
         ];
     }
 

@@ -21,7 +21,10 @@ class User extends Authenticatable
         'name',
         'surname',
         'email',
-        'password'
+        'password',
+        'id_type',
+        'gov_id',
+        'phone_number'
     ];
 
     /**
@@ -49,7 +52,7 @@ class User extends Authenticatable
 
     public function customer()
     {
-        return $this->belongsTo(Customer::class, 'user_id');
+        return $this->belongsTo(Customer::class);
     }
 
     public function parking_lots()

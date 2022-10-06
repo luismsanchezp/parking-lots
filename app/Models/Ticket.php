@@ -21,6 +21,11 @@ class Ticket extends Model
         'vehicle_type_id' => 'integer',
     ];
 
+    public function payed()
+    {
+        return $this->remove_date != NULL;
+    }
+
     public function vehicle()
     {
         return $this->belongsTo(Vehicle::class, 'vehicle_id');
@@ -30,7 +35,7 @@ class Ticket extends Model
     {
         return $this->belongsTo(VehicleType::class, 'vehicle_type_id');
     }
-    
+
     public function parking_spot()
     {
         return $this->belongsTo(ParkingSpot::class, 'parking_spot_id');

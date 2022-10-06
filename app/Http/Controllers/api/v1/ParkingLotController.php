@@ -3,10 +3,13 @@
 namespace App\Http\Controllers\api\v1;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\ParkingLotResource;
 use App\Models\ParkingLot;
+use App\Models\ParkingSpot;
 use Illuminate\Http\Request;
 
 use App\Http\Requests\api\v1\ParkingLotStoreRequest;
+use Illuminate\Support\Facades\Auth;
 
 class ParkingLotController extends Controller
 {
@@ -18,7 +21,7 @@ class ParkingLotController extends Controller
     public function index()
     {
         $parkingLots = ParkingLot::orderBy('name', 'asc')->get();
-        return response()->json(['data' => $parkingLots], 200);
+        return response()->json(['data' => ParkingLotResource::collection($parkingLots)], 200);
     }
 
     /**
@@ -29,8 +32,16 @@ class ParkingLotController extends Controller
      */
     public function store(ParkingLotStoreRequest $request)
     {
-        $parkingLot = ParkingLot::create($request->all());
-	    return $parkingLot;
+        $id = Auth::user()->id;
+        $parkingLot = new ParkingLot();
+        $parkingLot->name = $request->input('name');
+        $parkingLot->rows = $request->input('rows');
+        $parkingLot->columns = $request->input('columns');
+        $parkingLot->user_id = $id;
+        $parkingLot->save();
+        return (new ParkingLotResource($parkingLot))
+            ->response()
+            ->setStatusCode(200);
     }
 
     /**
@@ -41,7 +52,9 @@ class ParkingLotController extends Controller
      */
     public function show(ParkingLot $parkingLot)
     {
-        return response()->json(['data' => $parkingLot], 200);
+        return (new ParkingLotResource($parkingLot))
+            ->response()
+            ->setStatusCode(200);
     }
 
     /**
@@ -54,7 +67,9 @@ class ParkingLotController extends Controller
     public function update(ParkingLotStoreRequest $request, ParkingLot $parkingLot)
     {
         $parkingLot->update($request->all());
-        return response()->json(['data' => $parkingLot], 200);
+        return (new ParkingLotResource($parkingLot))
+            ->response()
+            ->setStatusCode(200);
     }
 
     /**
@@ -67,4 +82,19 @@ class ParkingLotController extends Controller
     {
         //
     }
+    /*
+    public function createAllSpots(ParkingLot $parkingLot)
+    {
+        return response()->json(['data' => $parkingLot->id], 200);
+        for($r = 0; $r < $parkingLot->rows; $r++){
+            for($c = 0; $c < $parkingLot->columns; $c++){
+                $parkingSpot = new ParkingSpot();
+                $parkingSpot->rows = $r;
+                $parkingSpot->columns = $c;
+                $parkingSpot->parking_lot_id = $parkingLot->id;
+                $parkingSpot->save();
+            }
+        }
+    }
+    */
 }

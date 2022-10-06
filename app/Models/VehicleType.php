@@ -13,7 +13,8 @@ class VehicleType extends Model
     protected $fillable = [
         'vehicle_type',
         'tariff',
-        'parking_lot_id'
+        'creation_date',
+        'parking_lot_id',
     ];
 
     protected $casts = [

@@ -7,6 +7,7 @@ use App\Models\ParkingSpot;
 use Illuminate\Http\Request;
 
 use App\Http\Requests\api\v1\ParkingSpotStoreRequest;
+use App\Http\Resources\ParkingSpotResource;
 
 class ParkingSpotController extends Controller
 {
@@ -18,7 +19,7 @@ class ParkingSpotController extends Controller
     public function index()
     {
         $parkingSpots = ParkingSpot::orderBy('parking_lot_id', 'asc')->get();
-        return response()->json(['data' => $parkingSpots], 200);
+        return response()->json(['data' => ParkingSpotResource::collection($parkingSpots)], 200);
     }
 
     /**
@@ -29,8 +30,14 @@ class ParkingSpotController extends Controller
      */
     public function store(ParkingSpotStoreRequest $request)
     {
-        $parkingSpot = ParkingSpot::create($request->all());
-	    return $parkingSpot;
+        $parkingSpot = new ParkingSpot();
+        $parkingSpot->row = $request->row;
+        $parkingSpot->column = $request->column;
+        $parkingSpot->parking_lot_id = $request->parking_lot_id;
+        $parkingSpot->save();
+        return (new ParkingSpotResource($parkingSpot))
+            ->response()
+            ->setStatusCode(200);
     }
 
     /**
@@ -41,7 +48,9 @@ class ParkingSpotController extends Controller
      */
     public function show(ParkingSpot $parkingSpot)
     {
-        return response()->json(['data' => $parkingSpot], 200);
+        return (new ParkingSpotResource($parkingSpot))
+            ->response()
+            ->setStatusCode(200);
     }
 
     /**

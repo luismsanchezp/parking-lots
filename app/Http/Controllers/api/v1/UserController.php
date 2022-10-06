@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\api\v1;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\UserResource;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -19,7 +20,7 @@ class UserController extends Controller
     public function index()
     {
         $users = User::orderBy('name', 'asc')->get();
-        return response()->json(['data' => $users], 200);
+        return response()->json(['data' => UserResource::collection($users)], 200);
     }
 
     /**
@@ -31,7 +32,9 @@ class UserController extends Controller
     public function store(UserStoreRequest $request)
     {
         $user = User::create($request->all());
-	    return $user;
+        return (new UserResource($user))
+            ->response()
+            ->setStatusCode(200);
     }
 
     /**
@@ -42,7 +45,9 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
-        return response()->json(['data' => $user], 200);
+        return (new UserResource($user))
+            ->response()
+            ->setStatusCode(200);
     }
 
     /**
@@ -55,7 +60,9 @@ class UserController extends Controller
     public function update(UserUpdateRequest $request, User $user)
     {
         $user->update($request->all());
-        return response()->json(['data' => $user], 200);
+        return (new UserResource($user))
+            ->response()
+            ->setStatusCode(200);
     }
 
     /**

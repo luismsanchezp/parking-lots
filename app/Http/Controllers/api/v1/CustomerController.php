@@ -3,10 +3,12 @@
 namespace App\Http\Controllers\api\v1;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\CustomerResource;
 use App\Models\Customer;
 use Illuminate\Http\Request;
 
 use App\Http\Requests\api\v1\CustomerStoreRequest;
+use Illuminate\Support\Facades\Auth;
 
 class CustomerController extends Controller
 {
@@ -18,7 +20,8 @@ class CustomerController extends Controller
     public function index()
     {
         $customers = Customer::orderBy('id', 'asc')->get();
-        return response()->json(['data' => $customers], 200);
+
+        return response()->json(['data' => CustomerResource::collection($customers)], 200);
     }
 
     /**
@@ -29,8 +32,14 @@ class CustomerController extends Controller
      */
     public function store(CustomerStoreRequest $request)
     {
-        $customer = Customer::create($request->all());
-	    return $customer;
+        $id = Auth::user()->id;
+        $customer = new Customer();
+        $customer->driver_license = $request->input('driver_license');
+        $customer->user_id = $id;
+        $customer->save();
+        return (new CustomerResource($customer))
+            ->response()
+            ->setStatusCode(200);
     }
 
     /**
@@ -41,7 +50,9 @@ class CustomerController extends Controller
      */
     public function show(Customer $customer)
     {
-        return response()->json(['data' => $customer], 200);
+        return (new CustomerResource($customer))
+            ->response()
+            ->setStatusCode(200);
     }
 
     /**

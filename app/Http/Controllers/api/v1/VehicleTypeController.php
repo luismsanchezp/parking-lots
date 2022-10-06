@@ -7,6 +7,7 @@ use App\Models\VehicleType;
 use Illuminate\Http\Request;
 
 use App\Http\Requests\api\v1\VehicleTypeStoreRequest;
+use Carbon\Carbon;
 
 class VehicleTypeController extends Controller
 {
@@ -29,7 +30,12 @@ class VehicleTypeController extends Controller
      */
     public function store(VehicleTypeStoreRequest $request)
     {
-        $vehicleType = VehicleType::create($request->all());
+        $vehicleType = VehicleType::create([
+            'vehicle_type' => $request->input('vehicle_type'),
+            'tariff' => $request->input('tariff'),
+            'creation_date' => Carbon::now()->toDateTimeString(),
+            'parking_lot_id' => $request->input('parking_lot_id'),
+        ]);
 	    return $vehicleType;
     }
 

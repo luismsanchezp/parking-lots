@@ -26,7 +26,7 @@ class CustomerStoreRequest extends FormRequest
     public function rules()
     {
         return [
-            "driver_license" => "required|string|min:10|max:10|numeric|unique:customers,driver_license",
+            "driver_license" => "required|string|digits_between:10,10|numeric|unique:customers,driver_license",
         ];
     }
 
